@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+const port = "8080"
+
 func main() {
 	mux := http.NewServeMux()
 
@@ -13,7 +15,8 @@ func main() {
 
 	server := &http.Server{}
 	server.Handler = mux
-	server.Addr = ":8080"
+	server.Addr = ":" + port
 
+	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(server.ListenAndServe())
 }
