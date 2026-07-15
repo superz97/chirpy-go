@@ -10,21 +10,19 @@ const port = "8080"
 func main() {
 	mux := http.NewServeMux()
 
+	apiCfg := &apiConfig{}
+
 	fileServer := http.FileServer(http.Dir("."))
-	mux.Handle("/app/", http.StripPrefix("/app/", fileServer))
+	mux.Handle("/app/", apiCfg.middlewareMetricsInc(http.StripPrefix("/app/", fileServer)))
 
 	server := &http.Server{}
 	server.Handler = mux
 	server.Addr = ":" + port
 
-	mux.HandleFunc("/healthz", handleReadiness)
+	mux.HandleFunc("/healthz", handlerReadiness)
+	mux.HandleFunc("/metrics", apiCfg.handlerMetrics)
+	mux.HandleFunc("/reset", apiCfg.handlerReset)
 
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(server.ListenAndServe())
-}
-
-func handleReadiness(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
 }
