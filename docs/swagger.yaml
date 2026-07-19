@@ -3,7 +3,14 @@ definitions:
     properties:
       body:
         type: string
-      user_id:
+    type: object
+  main.LoginCredentials:
+    properties:
+      email:
+        type: string
+      expires_in_seconds:
+        type: integer
+      password:
         type: string
     type: object
   main.UserCredentials:
@@ -29,6 +36,11 @@ paths:
       responses: {}
     post:
       parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: chirp
         in: body
         name: chirp
@@ -56,7 +68,7 @@ paths:
         name: credentials
         required: true
         schema:
-          $ref: '#/definitions/main.UserCredentials'
+          $ref: '#/definitions/main.LoginCredentials'
       responses: {}
   /api/users:
     post:

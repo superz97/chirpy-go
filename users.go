@@ -16,11 +16,17 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Email     string    `json:"email"`
+	Token     string    `json:"token,omitempty"`
 }
 
 type UserCredentials struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
+}
+
+type LoginCredentials struct {
+	UserCredentials
+	ExpiresInSeconds *int `json:"expires_in_seconds"`
 }
 
 // @Param user body UserCredentials true "user"
@@ -59,11 +65,11 @@ func (cfg *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) 
 	})
 }
 
-// @Param credentials body UserCredentials true "credentials"
+// @Param credentials body LoginCredentials true "credentials"
 // @Router /api/login [post]
 func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-	params := UserCredentials{}
+	params := LoginCredentials{}
 	err := decoder.Decode(&params)
 	if err != nil {
 		log.Printf("Error decoding parameters: %s", err)
@@ -83,10 +89,26 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	expiresIn := time.Hour
+	if params.ExpiresInSeconds != nil {
+		requested := time.Duration(*params.ExpiresInSeconds) * time.Second
+		if requested > 0 && requested < time.Hour {
+			expiresIn = requested
+		}
+	}
+
+	token, err := auth.MakeJWT(user.ID, cfg.jwtSecret, expiresIn)
+	if err != nil {
+		log.Printf("Error creating JWT: %s", err)
+		respondWithError(w, http.StatusInternalServerError, "Something went wrong")
+		return
+	}
+
 	respondWithJSON(w, http.StatusOK, User{
 		ID:        user.ID,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
 		Email:     user.Email,
+		Token:     token,
 	})
 }

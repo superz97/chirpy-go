@@ -33,9 +33,12 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	jwtSecret := os.Getenv("JWT_SECRET")
+
 	apiCfg := &apiConfig{
-		db:       dbQueries,
-		platform: platform,
+		db:        dbQueries,
+		platform:  platform,
+		jwtSecret: jwtSecret,
 	}
 
 	fileServer := http.FileServer(http.Dir("."))

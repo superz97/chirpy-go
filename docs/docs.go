@@ -32,6 +32,13 @@ const docTemplate = `{
             "post": {
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Bearer token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "chirp",
                         "name": "chirp",
                         "in": "body",
@@ -72,7 +79,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.UserCredentials"
+                            "$ref": "#/definitions/main.LoginCredentials"
                         }
                     }
                 ],
@@ -102,8 +109,19 @@ const docTemplate = `{
             "properties": {
                 "body": {
                     "type": "string"
+                }
+            }
+        },
+        "main.LoginCredentials": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
                 },
-                "user_id": {
+                "expires_in_seconds": {
+                    "type": "integer"
+                },
+                "password": {
                     "type": "string"
                 }
             }
