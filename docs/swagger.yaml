@@ -1,0 +1,71 @@
+definitions:
+  main.ChirpRequest:
+    properties:
+      body:
+        type: string
+      user_id:
+        type: string
+    type: object
+  main.UserCredentials:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: Chirpy API
+paths:
+  /admin/metrics:
+    get:
+      responses: {}
+  /admin/reset:
+    post:
+      responses: {}
+  /api/chirps:
+    get:
+      responses: {}
+    post:
+      parameters:
+      - description: chirp
+        in: body
+        name: chirp
+        required: true
+        schema:
+          $ref: '#/definitions/main.ChirpRequest'
+      responses: {}
+  /api/chirps/{chirpID}:
+    get:
+      parameters:
+      - description: chirp id
+        in: path
+        name: chirpID
+        required: true
+        type: string
+      responses: {}
+  /api/healthz:
+    get:
+      responses: {}
+  /api/login:
+    post:
+      parameters:
+      - description: credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserCredentials'
+      responses: {}
+  /api/users:
+    post:
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserCredentials'
+      responses: {}
+swagger: "2.0"

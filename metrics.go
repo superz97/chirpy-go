@@ -21,6 +21,7 @@ func (cfg *apiConfig) middlewareMetricsInc(next http.Handler) http.Handler {
 	})
 }
 
+// @Router /admin/metrics [get]
 func (cfg *apiConfig) handlerMetrics(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html;")
 	w.WriteHeader(http.StatusOK)
@@ -34,6 +35,7 @@ func (cfg *apiConfig) handlerMetrics(w http.ResponseWriter, r *http.Request) {
 		cfg.fileserverHits.Load())))
 }
 
+// @Router /admin/reset [post]
 func (cfg *apiConfig) handlerReset(w http.ResponseWriter, r *http.Request) {
 	if cfg.platform != "dev" {
 		respondWithError(w, http.StatusForbidden, "Reset is only allowed in dev environment")

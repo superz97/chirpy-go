@@ -8,12 +8,17 @@ import (
 
 	"chirpy-go/internal/database"
 
+	_ "chirpy-go/docs"
+
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 const port = "8080"
 
+// @title Chirpy API
+// @host localhost:8080
 func main() {
 	godotenv.Load()
 	dbUrl := os.Getenv("DB_URL")
@@ -49,6 +54,9 @@ func main() {
 	mux.HandleFunc("GET /api/chirps/{chirpID}", apiCfg.handlerGetChirp)
 	mux.HandleFunc("POST /api/chirps", apiCfg.handlerCreateChirp)
 	mux.HandleFunc("POST /api/users", apiCfg.handlerCreateUser)
+	mux.HandleFunc("POST /api/login", apiCfg.handlerLogin)
+
+	mux.Handle("/swagger/", httpSwagger.WrapHandler)
 
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(server.ListenAndServe())

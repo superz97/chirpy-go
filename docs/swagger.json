@@ -1,0 +1,114 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Chirpy API",
+        "contact": {}
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/admin/metrics": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/admin/reset": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/api/chirps": {
+            "get": {
+                "responses": {}
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "description": "chirp",
+                        "name": "chirp",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.ChirpRequest"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/chirps/{chirpID}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "chirp id",
+                        "name": "chirpID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/healthz": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/api/login": {
+            "post": {
+                "parameters": [
+                    {
+                        "description": "credentials",
+                        "name": "credentials",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserCredentials"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/users": {
+            "post": {
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserCredentials"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "main.ChirpRequest": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.UserCredentials": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
