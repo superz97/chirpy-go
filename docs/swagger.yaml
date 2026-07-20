@@ -40,6 +40,19 @@ paths:
           $ref: '#/definitions/main.ChirpRequest'
       responses: {}
   /api/chirps/{chirpID}:
+    delete:
+      parameters:
+      - description: Bearer access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: chirp id
+        in: path
+        name: chirpID
+        required: true
+        type: string
+      responses: {}
     get:
       parameters:
       - description: chirp id

@@ -63,6 +63,25 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "chirp id",
+                        "name": "chirpID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
             }
         },
         "/api/healthz": {

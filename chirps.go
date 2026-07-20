@@ -124,6 +124,49 @@ func (cfg *apiConfig) handlerGetChirp(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Param Authorization header string true "Bearer access token"
+// @Param chirpID path string true "chirp id"
+// @Router /api/chirps/{chirpID} [delete]
+func (cfg *apiConfig) handlerDeleteChirp(w http.ResponseWriter, r *http.Request) {
+	tokenString, err := auth.GetBearerToken(r.Header)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	userID, err := auth.ValidateJWT(tokenString, cfg.jwtSecret)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	chirpID, err := uuid.Parse(r.PathValue("chirpID"))
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid Chirp ID")
+		return
+	}
+
+	chirp, err := cfg.db.GetChirp(r.Context(), chirpID)
+	if err != nil {
+		respondWithError(w, http.StatusNotFound, "Chirp not found")
+		return
+	}
+
+	if chirp.UserID != userID {
+		respondWithError(w, http.StatusForbidden, "You can only delete your own chirps")
+		return
+	}
+
+	err = cfg.db.DeleteChirp(r.Context(), chirpID)
+	if err != nil {
+		log.Printf("Error deleting chirp: %s", err)
+		respondWithError(w, http.StatusInternalServerError, "Something went wrong")
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func cleanBody(body string, badWords map[string]struct{}) string {
 	words := strings.Split(body, " ")
 	for i, word := range words {
