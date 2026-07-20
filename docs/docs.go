@@ -115,6 +115,27 @@ const docTemplate = `{
             }
         },
         "/api/users": {
+            "put": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.UserCredentials"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
             "post": {
                 "parameters": [
                     {

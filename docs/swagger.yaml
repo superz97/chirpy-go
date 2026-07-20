@@ -89,4 +89,18 @@ paths:
         schema:
           $ref: '#/definitions/main.UserCredentials'
       responses: {}
+    put:
+      parameters:
+      - description: Bearer access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.UserCredentials'
+      responses: {}
 swagger: "2.0"
