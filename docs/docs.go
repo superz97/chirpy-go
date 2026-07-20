@@ -105,6 +105,22 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/polka/webhooks": {
+            "post": {
+                "parameters": [
+                    {
+                        "description": "webhook",
+                        "name": "webhook",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.PolkaWebhook"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/refresh": {
             "post": {
                 "parameters": [
@@ -176,6 +192,22 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "body": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.PolkaWebhook": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "user_id": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "event": {
                     "type": "string"
                 }
             }

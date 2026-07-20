@@ -4,6 +4,16 @@ definitions:
       body:
         type: string
     type: object
+  main.PolkaWebhook:
+    properties:
+      data:
+        properties:
+          user_id:
+            type: string
+        type: object
+      event:
+        type: string
+    type: object
   main.UserCredentials:
     properties:
       email:
@@ -73,6 +83,16 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/main.UserCredentials'
+      responses: {}
+  /api/polka/webhooks:
+    post:
+      parameters:
+      - description: webhook
+        in: body
+        name: webhook
+        required: true
+        schema:
+          $ref: '#/definitions/main.PolkaWebhook'
       responses: {}
   /api/refresh:
     post:
