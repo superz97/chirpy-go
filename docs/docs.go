@@ -79,8 +79,36 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.LoginCredentials"
+                            "$ref": "#/definitions/main.UserCredentials"
                         }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/refresh": {
+            "post": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer refresh token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/revoke": {
+            "post": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer refresh token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {}
@@ -108,20 +136,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "body": {
-                    "type": "string"
-                }
-            }
-        },
-        "main.LoginCredentials": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "expires_in_seconds": {
-                    "type": "integer"
-                },
-                "password": {
                     "type": "string"
                 }
             }

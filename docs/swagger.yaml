@@ -4,15 +4,6 @@ definitions:
       body:
         type: string
     type: object
-  main.LoginCredentials:
-    properties:
-      email:
-        type: string
-      expires_in_seconds:
-        type: integer
-      password:
-        type: string
-    type: object
   main.UserCredentials:
     properties:
       email:
@@ -68,7 +59,25 @@ paths:
         name: credentials
         required: true
         schema:
-          $ref: '#/definitions/main.LoginCredentials'
+          $ref: '#/definitions/main.UserCredentials'
+      responses: {}
+  /api/refresh:
+    post:
+      parameters:
+      - description: Bearer refresh token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+  /api/revoke:
+    post:
+      parameters:
+      - description: Bearer refresh token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       responses: {}
   /api/users:
     post:
