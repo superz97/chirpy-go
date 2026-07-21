@@ -33,6 +33,12 @@ const docTemplate = `{
                         "description": "filter chirps by author",
                         "name": "author_id",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "asc or desc, default asc",
+                        "name": "sort",
+                        "in": "query"
                     }
                 ],
                 "responses": {}

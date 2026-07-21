@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"sort"
 	"strings"
 	"time"
 
@@ -80,6 +81,7 @@ func (cfg *apiConfig) handlerCreateChirp(w http.ResponseWriter, r *http.Request)
 }
 
 // @Param author_id query string false "filter chirps by author"
+// @Param sort query string false "asc or desc, default asc"
 // @Router /api/chirps [get]
 func (cfg *apiConfig) handlerGetChirps(w http.ResponseWriter, r *http.Request) {
 	authorIDString := r.URL.Query().Get("author_id")
@@ -112,6 +114,14 @@ func (cfg *apiConfig) handlerGetChirps(w http.ResponseWriter, r *http.Request) {
 			UserID:    dbChirp.UserID,
 		})
 	}
+
+	sortDirection := r.URL.Query().Get("sort")
+	if sortDirection == "desc" {
+		sort.Slice(chirps, func(i, j int) bool {
+			return chirps[i].CreatedAt.After(chirps[j].CreatedAt)
+		})
+	}
+
 	respondWithJSON(w, http.StatusOK, chirps)
 }
 
