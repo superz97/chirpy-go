@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chirpy-go/internal/auth"
 	"database/sql"
 	"encoding/json"
 	"errors"
@@ -17,12 +18,19 @@ type PolkaWebhook struct {
 	} `json:"data"`
 }
 
+// @Param Authorization header string true "ApiKey token"
 // @Param webhook body PolkaWebhook true "webhook"
 // @Router /api/polka/webhooks [post]
 func (cfg *apiConfig) handlerPolkaWebhook(w http.ResponseWriter, r *http.Request) {
+	apiKey, err := auth.GetAPIKey(r.Header)
+	if err != nil || apiKey != cfg.polkaKey {
+		respondWithError(w, http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
 	decoder := json.NewDecoder(r.Body)
 	params := &PolkaWebhook{}
-	err := decoder.Decode(params)
+	err = decoder.Decode(params)
 	if err != nil {
 		log.Printf("Error decoding parameters: %s", err)
 		respondWithError(w, http.StatusInternalServerError, "Something went wrong")

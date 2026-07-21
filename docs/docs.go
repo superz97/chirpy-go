@@ -109,6 +109,13 @@ const docTemplate = `{
             "post": {
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "ApiKey token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "webhook",
                         "name": "webhook",
                         "in": "body",

@@ -121,3 +121,35 @@ func TestGetBearerTokenMalformed(t *testing.T) {
 		t.Fatal("expected error for malformed Authorization header, got nil")
 	}
 }
+
+func TestGetAPIKey(t *testing.T) {
+	headers := http.Header{}
+	headers.Set("Authorization", "ApiKey my-api-key")
+
+	got, err := GetAPIKey(headers)
+	if err != nil {
+		t.Fatalf("GetAPIKey returned error: %v", err)
+	}
+	if got != "my-api-key" {
+		t.Fatalf("expected %q, got %q", "my-api-key", got)
+	}
+}
+
+func TestGetAPIKeyMissingHeader(t *testing.T) {
+	headers := http.Header{}
+
+	_, err := GetAPIKey(headers)
+	if err == nil {
+		t.Fatal("expected error for missing Authorization header, got nil")
+	}
+}
+
+func TestGetAPIKeyMalformed(t *testing.T) {
+	headers := http.Header{}
+	headers.Set("Authorization", "my-api-key")
+
+	_, err := GetAPIKey(headers)
+	if err == nil {
+		t.Fatal("expected error for malformed Authorization header, got nil")
+	}
+}

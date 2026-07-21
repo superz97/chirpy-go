@@ -87,6 +87,11 @@ paths:
   /api/polka/webhooks:
     post:
       parameters:
+      - description: ApiKey token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: webhook
         in: body
         name: webhook

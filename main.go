@@ -34,11 +34,13 @@ func main() {
 	mux := http.NewServeMux()
 
 	jwtSecret := os.Getenv("JWT_SECRET")
+	polkaKey := os.Getenv("POLKA_KEY")
 
 	apiCfg := &apiConfig{
 		db:        dbQueries,
 		platform:  platform,
 		jwtSecret: jwtSecret,
+		polkaKey:  polkaKey,
 	}
 
 	fileServer := http.FileServer(http.Dir("."))
