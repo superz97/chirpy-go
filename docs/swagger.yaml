@@ -34,6 +34,11 @@ paths:
       responses: {}
   /api/chirps:
     get:
+      parameters:
+      - description: filter chirps by author
+        in: query
+        name: author_id
+        type: string
       responses: {}
     post:
       parameters:

@@ -27,6 +27,14 @@ const docTemplate = `{
         },
         "/api/chirps": {
             "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "filter chirps by author",
+                        "name": "author_id",
+                        "in": "query"
+                    }
+                ],
                 "responses": {}
             },
             "post": {
